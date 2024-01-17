@@ -29,7 +29,6 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
 		this.inOrder();
 		this.reverseOrder();
 		this.sort();
-
 		// TODO Add code for homework exercise 3 (d) here
 	}
 
@@ -153,7 +152,6 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
 		return grainCountList;
 	}
 
-
 	/*@
 	  @ requires paule !== null;
 	  @ requires count>0;
@@ -161,7 +159,6 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
 	  @ ensures paule has put down the set number of grains;
 	  @ ensures new grainCount= grainCount- count;
 	 */
-
 	/**
 	 * Makes paule put down a wanted number of grains;
 	 *
@@ -172,7 +169,6 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
 			paule.putGrain();
 		}
 	}
-
 	}
 
 
