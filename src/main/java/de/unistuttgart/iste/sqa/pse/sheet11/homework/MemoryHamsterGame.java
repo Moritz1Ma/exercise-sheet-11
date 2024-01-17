@@ -3,8 +3,7 @@ package de.unistuttgart.iste.sqa.pse.sheet11.homework;
 import de.hamstersimulator.objectsfirst.external.model.Hamster;
 import de.hamstersimulator.objectsfirst.external.simple.game.SimpleHamsterGame;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * Class to implement homework exercises 1, 2 and 3 of sheet 11.
@@ -34,7 +33,7 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
 
 
 	/*@
-	  @ requires paule != null;
+	  @ requires paule !== null;
 	  @ requires paule.frontIsClear;
 	  @ ensures paule.mouthEmpty();
 	  @ ensures new order of grains on the field;
@@ -42,7 +41,7 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
 	/**
 	 * Paule picks all grains and puts them down in the exact order as he has picked them up.
 	 *
-	 * Makes Paule walk in a line and pick up all grains until he has reached a wall. Once he reaches a wall, he makes a 180°
+	 * Makes Paule walk in a line and pick up all grains until he has reached a wall. Once he reaches a wall, he takes a 180°
 	 * turn and walks back to his starting position, leaving the grains on each field in the exact order he has picked them up.
 	 *
 	 */
@@ -55,26 +54,25 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
 				setGrainPut(reversedOrderList.remove());
 				paule.move();
 			}
-			else{
-				setGrainPut(reversedOrderList.remove());
-			}
+			else{setGrainPut(reversedOrderList.remove());}
 		}
 		turnAround(paule);
 	}
 
 	/*@
-	  @ requires paule != null;
+	  @ requires paule !== null;
 	  @ requires paule.frontIsClear();
-	  @ ensures new order of grains on the field;
+	  @ ensures order of grains per tile hasn´t changed;
 	  @ ensures paule.mouthIsEmpty();
 	@*/
 	/**
-	 * Makes paule walk a line and pick up all grains then makes him return and leave the grains exactly like he picked them up.
+	 * Makes paule walk a line and pick up all grains then makes him return and leave the grains exactly like he has picked them up.
 	 *
-	 * Paule walks a line and picks up all grains per field. Once he has reached a wall he takes a 180° turn and puts the
+	 * Paule walks a line and picks up all grains per tile. Once he has reached a wall he takes a 180° turn and puts the
 	 * grains back down in the exact order he has picked them up.
 	 */
 	private void inOrder() {
+		assert !(paule== null);
 		final LinkedList<Integer> orderedList= new LinkedList<>(pickLineAndCount());
 		turnAround(paule);
 		while (!orderedList.isEmpty()){
@@ -82,23 +80,36 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
 				setGrainPut(orderedList.removeLast());
 				paule.move();
 			}
-			else{
-				setGrainPut(orderedList.removeLast());
-			}
+			else{setGrainPut(orderedList.removeLast());}
 		}
 		turnAround(paule);
 	}
 	/*@
-	  @
-	  @
-	  @
+	  @ requires paule !== null;
+	  @ requires paule.frontIsClear();
+	  @ ensures new order of grains on the field, sorted numerically;
+	  @ ensures paule.mouthIsEmpty();
 	@*/
 	/**
-	 * TODO add documentation here.
+	 * Makes paule run in a line and back, putting the grains down from the smallest number of grains per tile to the highest;
+	 *
+	 * paule runs a line and picks up grains until he reaches a wall. Once the wall is reached, he takes a 180° turn and moves.
+	 * He then proceeds to put down grains on each tile, sorting them by putting them down from the smallest amount to the highest amount of grains
+	 * per tile.
 	 */
 	private void sort() {
+		assert !(paule== null);
+		SortedSet<Integer> sortedSet= new TreeSet<>(pickLineAndCount());
+		turnAround(paule);
+			for (Integer step : sortedSet){
+				paule.move();
+				setGrainPut(step);
+		}
+		turnAround(paule);
+		}
+
 		// TODO implement homework exercise 3 (b)
-	}
+
 
 	// TODO Add Operation for homework exercise 3 (c) here
 
@@ -106,7 +117,7 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
 
 	/*@
 	  @ requires paule!== null;
-	  @ ensures paule.getDirection= new Direction;
+	  @ ensures paule.getDirection.equals(/old paule.getDirection) = false;
 	 */
 	/**
 	 * Makes paule turn around 180°.
@@ -164,11 +175,12 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
 	 *
 	 * @param count the number of grains to be put down;
 	 */
-	private void setGrainPut(int count){
-		for(int i=0; i < count; i++){
+	private void setGrainPut(int count) {
+		for (int i = 0; i < count; i++) {
 			paule.putGrain();
 		}
 	}
-	}
+}
+
 
 
