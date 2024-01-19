@@ -27,14 +27,11 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
     @Override
     protected void run() {
         // Comment any operation call out, to run the others on their own.
-        this.inOrder();
-        // this.reverseOrder();
-        System.out.println();
-        // TODO Add code for homework exercise 3 (d) here
-        //nicht mit Vorschlag von IntelliJ ersetzen! Ist Aufgabenstellung
-        /*Comparator<Integer> descendingOrder = (a, b) -> b.compareTo(a);
-        Comparator<Integer> ascendingOrder = (a, b) -> a.compareTo(b);
-        this.sort(descendingOrder);*/
+//        this.inOrder();
+//         this.reverseOrder();
+//        Comparator<Integer> descendingOrder = (a, b) -> b.compareTo(a);
+//        Comparator<Integer> ascendingOrder = (a, b) -> a.compareTo(b);
+//        this.sort(descendingOrder);
     }
 
 	/*@
@@ -43,6 +40,7 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
 	  @ ensures paule.mouthEmpty();
 	  @ ensures new order of grains on the field;
 	*/
+
     /**
      * Paule picks all grains and puts them down in the exact order as he has picked them up.
      * <p>
@@ -69,6 +67,7 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
 	  @ ensures order of grains per tile hasn´t changed;
 	  @ ensures paule.mouthIsEmpty();
 	@*/
+
     /**
      * Makes paule walk a line and pick up all grains then makes him return and leave the grains exactly like he has picked them up.
      * <p>
@@ -92,18 +91,18 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
     }
 
     /*@
-      @ requires paule != null
+      @ requires hamster != null
       @ ensures \new GrainCountOnField == 0;
       @ ensures \new(GrainsInPaulesMouth) == \old(GrainsInPaulesMouth) + \old(GrainCountOnField)
      */
+
     /**
      * Gets the amount of grains on a field and picks all the grains up
      *
      * @return returns the number of grains that were on the field
      */
-    //TODO vllt. nochmal überlegen, wegen Abfragen- und Kommandotrennung, sonst maybe Stilfehler
     private int pickFieldAndCount(Hamster hamster) {
-        assert paule != null;
+        assert hamster != null;
         grainCount = 0;
         while (hamster.grainAvailable()) {
             hamster.pickGrain();
@@ -118,6 +117,7 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
 	  @ requires paule.frontIsClear();
 	  @ ensures new order of grains on the field, sorted numerically;
 	@*/
+
     /**
      * Makes paule run in a line and back, putting the grains down from the smallest number of grains per tile to the highest;
      * <p>
@@ -144,6 +144,7 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
       @ ensures new order of grains is grains sorted numerically by the comparator
       @ ensures
      */
+
     /**
      * Makes paule walk a straight line picking up all the grains in the line, then turn around and walk back while
      * putting all the grains he picked up back down, in sorted by whichever Comparator was chosen.
@@ -170,6 +171,7 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
       @ ensures \new(stack.size()) = \old(stack.size()) + 1;
       @ ensures stack.get(0) = grainCount;
      */
+
     /**
      * Helper operation for inOrder.
      * Picks up all the grains on a field and adds the amount of grains picked up to a stack, if paule's front is clear
@@ -198,6 +200,7 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
       @ ensures \new(stack.size()) = \old(stack.size()) - 1;
       @ ensures \new(grainCountOnFiled)
      */
+
     /**
      * Pops the first element of an integer stack and puts as many grains on the field
      *
@@ -222,6 +225,7 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
       @ requires hamster !== null;
 	  @ ensures new grainCount= grainCount- numberOfGrains;
      */
+
     /**
      * Lets the hamster put multiple Grains on the field
      *
@@ -230,19 +234,19 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
      */
     private void putMultipleGrains(Hamster hamster, int numberOfGrains) {
         /**
-        * @loop_invariant hamster put alreadyPutGrains on the grownd
-        * @decreasing numberOfGrains - alreadyPutGrains
-        * */
+         * @loop_invariant hamster put alreadyPutGrains on the grownd
+         * @decreasing numberOfGrains - alreadyPutGrains
+         * */
         for (int alreadyPutGrains = 0; alreadyPutGrains < numberOfGrains; alreadyPutGrains++) {
             hamster.putGrain();
         }
     }
 
 
-	/**
-	  @requires paule !== null;
-	  @ensures paule.getDirection.equals(\old paule.getDirection()) == false;
-	 */
+    /**
+     @requires paule !== null;
+     @ensures paule.getDirection.equals(\ old paule.getDirection ()) == false;
+     */
     /**
      * Makes paule turn around 180°.
      */
@@ -252,13 +256,13 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
         hamster.turnLeft();
     }
 
-	/**
-	  @requires grainCount >0;
-	  @requires paule.grainAvailable();
-	  @requires grainCountList.isEmpty();
-	  @ensures !grainCountList.isEmpty();
-	  @ensures grainCount is added to grainCountList;
-	*/
+    /**
+     @requires grainCount >0;
+     @requires paule.grainAvailable();
+     @requires grainCountList.isEmpty();
+     @ensures !grainCountList.isEmpty();
+     @ensures grainCount is added to grainCountList;
+     */
     /**
      * Makes paule move a line and pick up every grain and add the number of grains per field to the linkedList grainCountList;
      *
