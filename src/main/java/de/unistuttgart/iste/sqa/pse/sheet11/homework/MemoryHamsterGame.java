@@ -229,16 +229,19 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
      * @param numberOfGrains the number of grains to be put to the ground
      */
     private void putMultipleGrains(Hamster hamster, int numberOfGrains) {
-
+        /**
+        * @loop_invariant hamster put alreadyPutGrains on the grownd
+        * @decreasing numberOfGrains - alreadyPutGrains
+        * */
         for (int alreadyPutGrains = 0; alreadyPutGrains < numberOfGrains; alreadyPutGrains++) {
             hamster.putGrain();
         }
     }
 
 
-	/*@
-	  @ requires paule!== null;
-	  @ ensures paule.getDirection.equals(/old paule.getDirection) = false;
+	/**
+	  @requires paule !== null;
+	  @ensures paule.getDirection.equals(\old paule.getDirection()) == false;
 	 */
     /**
      * Makes paule turn around 180°.
@@ -249,13 +252,13 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
         hamster.turnLeft();
     }
 
-	/*@
-	  @ requires grainCount >0;
-	  @ requires paule.grainAvailable();
-	  @ requires grainCountList.isEmpty();
-	  @ ensures !grainCountList.isEmpty();
-	  @ ensures grainCount is added to grainCountList;
-	@*/
+	/**
+	  @requires grainCount >0;
+	  @requires paule.grainAvailable();
+	  @requires grainCountList.isEmpty();
+	  @ensures !grainCountList.isEmpty();
+	  @ensures grainCount is added to grainCountList;
+	*/
     /**
      * Makes paule move a line and pick up every grain and add the number of grains per field to the linkedList grainCountList;
      *
