@@ -27,11 +27,14 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
     @Override
     protected void run() {
         // Comment any operation call out, to run the others on their own.
-        this.inOrder();
+        //this.inOrder();
         // this.reverseOrder();
-//        this.sort();
         // TODO Add code for homework exercise 3 (d) here
+        //nicht mit Vorschlag von IntelliJ ersetzen! Ist Aufgabenstellung
+        Comparator<Integer> comparator = (a , b) -> b.compareTo(a);
+        this.sort(comparator);
     }
+
 
 
 	/*@
@@ -98,7 +101,7 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
      *
      * @return returns
      */
-    private int getAmountOfGrainsOnField(Hamster hamster) {
+    private int pickFieldAndCount(Hamster hamster) {
         int grainCount = 0;
         while (hamster.grainAvailable()) {
             hamster.pickGrain();
@@ -108,6 +111,9 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
     }
 
 
+
+
+    // TODO implement homework exercise 3 (b)
 	/*@
 	  @ requires paule !== null;
 	  @ requires paule.frontIsClear();
@@ -125,7 +131,7 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
         assert !(paule == null);
         SortedSet<Integer> sortedSet = new TreeSet<>(pickLineAndCount());
         turnAround(paule);
-        for (Integer step : sortedSet) {
+        for (final Integer step : sortedSet) {
             paule.move();
             setGrainPut(step);
         }
@@ -133,15 +139,24 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
     }
 
 
-    // TODO implement homework exercise 3 (b)
-
-
     // TODO Add Operation for homework exercise 3 (c) here
+
+    private void sort(Comparator<Integer> comparator){
+        assert paule != null;
+        SortedSet<Integer> sortedSet = new TreeSet<>(comparator);
+        sortedSet.addAll(pickLineAndCount());
+        turnAround(paule);
+        for(final Integer step : sortedSet){
+            paule.move();
+            setGrainPut(step);
+        }
+        turnAround(paule);
+    }
 
     // TODO Add required helper operations here
 
     private boolean walkForward(Stack<Integer> stack, boolean reachedWall) {
-        int amountOfGrains = getAmountOfGrainsOnField(paule);
+        int amountOfGrains = pickFieldAndCount(paule);
         stack.push(amountOfGrains);
         if (paule.frontIsClear())
             paule.move();
@@ -158,26 +173,11 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
             turnAround(paule);
             return true;
         }
-        putMultipleGrains(paule, currentStackValue);
+        setGrainPut(currentStackValue);
         paule.move();
         return false;
     }
 
-    /*@
-      @ requires numberOfGrains <= grains in paule's mouth
-     */
-    /**
-     * Lets the hamster put multiple Grains on the field
-     *
-     * @param hamster        the hamster to put down the grains
-     * @param numberOfGrains the number of grains to be put to the ground
-     */
-    private void putMultipleGrains(Hamster hamster, int numberOfGrains) {
-
-        for (int alreadyPutGrains = 0; alreadyPutGrains < numberOfGrains; alreadyPutGrains++) {
-            hamster.putGrain();
-        }
-    }
 
 	/*@
 	  @ requires paule!== null;
