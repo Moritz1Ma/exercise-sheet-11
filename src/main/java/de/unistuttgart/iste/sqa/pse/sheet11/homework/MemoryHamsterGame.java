@@ -31,8 +31,9 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
         // this.reverseOrder();
         // TODO Add code for homework exercise 3 (d) here
         //nicht mit Vorschlag von IntelliJ ersetzen! Ist Aufgabenstellung
-        Comparator<Integer> comparator = (a , b) -> b.compareTo(a);
-        this.sort(comparator);
+        Comparator<Integer> descendingOrder = (a , b) -> b.compareTo(a);
+        Comparator<Integer> ascendingOrder = (a, b) -> a.compareTo(b);
+        this.sort(descendingOrder);
     }
 
 
