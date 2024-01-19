@@ -56,10 +56,10 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
         turnAround(paule);
         while (!reversedOrderList.isEmpty()) {
             if (reversedOrderList.size() > 1) {
-                setGrainPut(reversedOrderList.remove());
+                putMultipleGrains(paule,reversedOrderList.remove());
                 paule.move();
             } else {
-                setGrainPut(reversedOrderList.remove());
+                putMultipleGrains(paule,reversedOrderList.remove());
             }
         }
         turnAround(paule);
@@ -133,7 +133,7 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
         turnAround(paule);
         for (final Integer step : sortedSet) {
             paule.move();
-            setGrainPut(step);
+            putMultipleGrains(paule,step);
         }
         turnAround(paule);
     }
@@ -148,7 +148,7 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
         turnAround(paule);
         for(final Integer step : sortedSet){
             paule.move();
-            setGrainPut(step);
+            putMultipleGrains(paule, step);
         }
         turnAround(paule);
     }
@@ -173,9 +173,29 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
             turnAround(paule);
             return true;
         }
-        setGrainPut(currentStackValue);
+        putMultipleGrains(paule, currentStackValue);
         paule.move();
         return false;
+    }
+
+
+
+    /*@
+      @ requires numberOfGrains <= grains in paule's mouth;
+      @ requires hamster !== null;
+	  @ ensures new grainCount= grainCount- numberOfGrains;
+     */
+    /**
+     * Lets the hamster put multiple Grains on the field
+     *
+     * @param hamster        the hamster to put down the grains
+     * @param numberOfGrains the number of grains to be put to the ground
+     */
+    private void putMultipleGrains(Hamster hamster, int numberOfGrains) {
+
+        for (int alreadyPutGrains = 0; alreadyPutGrains < numberOfGrains; alreadyPutGrains++) {
+            hamster.putGrain();
+        }
     }
 
 
@@ -227,26 +247,4 @@ public class MemoryHamsterGame extends SimpleHamsterGame {
         grainCountList.add(grainCount);
         return grainCountList;
     }
-
-	/*@
-	  @ requires paule !== null;
-	  @ requires count>0;
-	  @ requires !paule.mouthIsEmpty();
-	  @ ensures paule has put down the set number of grains;
-	  @ ensures new grainCount= grainCount- count;
-	 */
-
-    /**
-     * Makes paule put down a wanted number of grains;
-     *
-     * @param count the number of grains to be put down;
-     */
-    private void setGrainPut(int count) {
-        for (int i = 0; i < count; i++) {
-            paule.putGrain();
-        }
-    }
 }
-
-
-
